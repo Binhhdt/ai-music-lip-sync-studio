@@ -1,0 +1,14 @@
+.gradle/
+local.properties
+*.iml
+.DS_Store
+build/
+**/build/
+backend/data/
+backend/.venv/
+backend/engines/*.json
+!backend/engines/*.example.json
+*.keystore
+*.jks
+__pycache__/
+*.pyc
