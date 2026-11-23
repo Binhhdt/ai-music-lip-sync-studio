@@ -1,0 +1,11 @@
+# Đặt file này tại: render.yaml  (gốc repo Binhhdt/ai-music-lip-sync-studio)
+# Deploy bằng Blueprint trên Render: New -> Blueprint -> chọn repo -> Create.
+# Gói free: ngủ sau 15 phút không dùng, lần nối đầu chờ ~30-60s (giống relay SNES).
+services:
+  - type: web
+    name: lipsync-backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /api/v1/health
