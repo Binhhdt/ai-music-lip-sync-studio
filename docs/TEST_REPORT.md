@@ -14,7 +14,9 @@
   có cả video + audio (nhạc gốc)
 - [x] Backend chạy thật bằng uvicorn (HTTP, không chỉ TestClient): health,
   capabilities, job flow hoàn chỉnh, MP4 ra đúng 6.000s, có audio
-- [x] GitHub Actions: xem workflow run sau khi push
+- [x] GitHub Actions build APK thành công — run 45049467470, 3m7s, artifact
+  `lip-sync-studio-debug-apk` (sau khi sửa lỗi gói SDK `tools` lỗi thời)
+- [x] GitHub Actions backend tests thành công — run 45049400534, 35s
 - [ ] Cài được trên điện thoại Android thật (chưa test — chờ Bình cài)
 - [ ] Chọn ảnh / video / MP3 từ điện thoại (chưa test trên máy thật)
 - [ ] Đọc đúng thời lượng MP3 (chưa test trên máy thật)

@@ -91,3 +91,14 @@ def test_full_job_flow(tmp_path: Path):
                             "stream=codec_type", "-of", "csv=p=0", str(out)],
                            capture_output=True, text=True)
     assert "audio" in probe.stdout
+
+
+def test_health_and_capabilities_without_gpu():
+    # Hồi quy: Render free không có nvidia-smi. /health và /capabilities
+    # vẫn phải trả 200 (gpu.present=false), vì Render health check cần 2xx —
+    # trước đây gpu_info() để FileNotFoundError lan ra ngoài thành 500,
+    # Render hủy deploy sau 15 phút.
+    for path in ("/api/v1/health", "/api/v1/capabilities"):
+        r = client.get(path)
+        assert r.status_code == 200, r.text
+        assert r.json()["gpu"]["present"] is False

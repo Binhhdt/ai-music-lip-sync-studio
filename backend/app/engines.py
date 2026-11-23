@@ -32,8 +32,15 @@ def demucs_available() -> bool:
 
 
 def gpu_info() -> dict:
-    r = subprocess.run(["nvidia-smi", "--query-gpu=name,memory.total",
-                        "--format=csv,noheader"], capture_output=True, text=True, timeout=15)
+    # nvidia-smi KHÔNG có trên máy không có GPU (vd: Render free,
+    # python:3.11-slim chỉ cài ffmpeg). Không được để FileNotFoundError
+    # lan ra ngoài: /api/v1/health và /api/v1/capabilities đều gọi hàm này,
+    # mà Render health check cần 2xx — lỗi 500 là deploy bị hủy sau 15 phút.
+    try:
+        r = subprocess.run(["nvidia-smi", "--query-gpu=name,memory.total",
+                            "--format=csv,noheader"], capture_output=True, text=True, timeout=15)
+    except (FileNotFoundError, OSError, subprocess.TimeoutExpired):
+        return {"present": False, "detail": "Không có GPU NVIDIA trên máy chủ này"}
     if r.returncode == 0 and r.stdout.strip():
         return {"present": True, "detail": r.stdout.strip()}
     return {"present": False, "detail": "Không có GPU NVIDIA trên máy chủ này"}
